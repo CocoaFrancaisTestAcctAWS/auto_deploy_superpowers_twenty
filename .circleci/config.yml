@@ -7,12 +7,7 @@
 #
 #
 #
-#
-#
-#
-#
-#
-#
+
 #
 version: 2.1
 commands:
@@ -88,14 +83,14 @@ jobs:
           name: Back-end build
           command: |
             cd backend
-            npm install -g typescript
-            npm init -y &&  npm i typescript --save-dev &&  npx tsc --init
             npm install
-            npm run build
+            npm run build           
             
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
+  
+  
   test-frontend:
     docker:
       # Docker image that is compatible with NodeJS.
