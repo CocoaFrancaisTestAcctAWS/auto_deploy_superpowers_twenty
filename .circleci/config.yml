@@ -144,8 +144,8 @@ jobs:
               npm install
               npm audit fix --audit-level=critical --force
               npm audit --audit-level=critical
-              npm update mkdirp --depth 4
-              run npm audit fix
+
+
   scan-backend:
     docker:
       # Docker image that is compatible with NodeJS.
