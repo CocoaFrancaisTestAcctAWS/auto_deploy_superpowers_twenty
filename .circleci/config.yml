@@ -235,7 +235,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["a1:e8:06:8d:07:a0:7d:68:90:63:00:85:54:8c:6c:7b"]
+          fingerprints: ["60:7b:85:85:ef:4e:ae:94:f6:16:2c:06:0d:97:a8:68"]
       - attach_workspace:
           at: ~/
        
@@ -354,6 +354,7 @@ jobs:
 # 6f:81:be:b5:62:71:fa:40:63:3d:74:23:ba:19:fc:de -cimg deployment key
 # a1:e8:06:8d:07:a0:7d:68:90:63:00:85:54:8c:6c:7b personal fingerprint key
 # a1:e8:06:8d:07:a0:7d:68:90:63:00:85:54:8c:6c:7b
+# 60:7b:85:85:ef:4e:ae:94:f6:16:2c:06:0d:97:a8:68
 # SHA256:BBZj7unaL8dp4j+sTnp4Br1otcDDXAEoj7q6w8j8Mtg - GitHub
 # SHA256:3+wXPh9gFyylnpA+bHPfugrwWh+fhaJHpFLX/RzX3J4 - cimg
 # ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIApDad3yDw/7/tEpHKiRXcoB2joX7iTYEMa7ZIBZdQi7 udacity.test.accoount@gmail.com
@@ -362,6 +363,29 @@ jobs:
 # Added on Aug 17, 2022 by cimg with authorization from @UdacityTestAcctAWS
 # chmod 400
 # export ANSIBLE_HOST_KEY_CHECKING=False
+# 
+# Using my  email ID as an account, run the following command to create a bucket
+# curl -d 'email=awscocoafrancaistestacct@gmail.com' https://kvdb.io
+# 2A4HDguqNggEeBscaqAAC8 kvdb.io
+# 2A4HDguqNggEeBscaqAAC8 - # kvdbio bucket 
+# 3 steps to create a KVdb bucket, and set up a key-value, and later get the value associated with a particular key.
+
+# The first step is to create a bucket using your email ID as an account. For the first time, you will have to verify your email ID using the email received in your mailbox. The command to create a bucket is:
+# # Example
+# curl -d 'email=awscocoafrancaistestacct@gmail.com' https://kvdb.io
+
+# Second step Store the key-value pair
+# Choose a key-value pair of your choice. In the example below, we have chosen migration_${CIRCLE_WORKFLOW_ID:0:7} as the key, and 1 as the value. Feel free to choose any key-value for practice. We have taken this example key from one of the project steps. The command to store a key-value pair is:
+# curl https://kvdb.io/2A4HDguqNggEeBscaqAAC8/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}  -d '1'
+
+# # access the key-values from any terminal if you know the bucket ID correctly. Also, you can create multiple buckets under your account.
+# # Example
+# curl https://kvdb.io/2A4HDguqNggEeBscaqAAC8/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}  -d '1'
+
+# The last/third step is to access the value associated with a particular key. The command is:
+# # Example
+# curl --insecure  https://kvdb.io/2A4HDguqNggEeBscaqAAC8/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}
+
 
   deploy-backend:
     docker: 
@@ -369,7 +393,7 @@ jobs:
     steps:
       - checkout 
       - add_ssh_keys:
-          fingerprints: ["c5:38:30:4a:4f:1b:cc:86:67:5c:e0:fe:b3:ed:54:fc"]
+          fingerprints: ["60:7b:85:85:ef:4e:ae:94:f6:16:2c:06:0d:97:a8:68"]
       - attach_workspace:
           at: ~/ 
       - run:
