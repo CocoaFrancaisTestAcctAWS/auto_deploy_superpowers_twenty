@@ -129,7 +129,7 @@ jobs:
   scan-frontend:
     docker:
       # Docker image that is compatible with NodeJS.
-      - image: cimg/node:13.8.0
+      - image: circleci/node:13.8.0
     steps:
       # Checkout code from git
       # Restore from cache
@@ -149,7 +149,7 @@ jobs:
   scan-backend:
     docker:
       # Docker image that is compatible with NodeJS.
-      - image: cimg/node:13.8.0
+      - image: circleci/node:13.8.0
     steps:
       # Checkout code from git
       # Restore from cache
@@ -184,7 +184,7 @@ jobs:
           name: Ensure back-end infrastructure exists
           command: |
             aws cloudformation deploy \
-              --template-file .cimg/files/backend.yml \
+              --template-file .circleci/files/backend.yml \
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople
@@ -209,7 +209,7 @@ jobs:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy \
-              --template-file .cimg/files/frontend.yml \
+              --template-file .circleci/files/frontend.yml \
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople
@@ -220,16 +220,16 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            echo [web] > .cimg/ansible/inventory.txt   
+            echo [web] > .circleci/ansible/inventory.txt   
             aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-            --output text >> .cimg/ansible/inventory.txt
-            cat .cimg/ansible/inventory.txt  
+            --output text >> .circleci/ansible/inventory.txt
+            cat .circleci/ansible/inventory.txt  
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/.cimg/ansible/inventory.txt
+            - project/.circleci/ansible/inventory.txt
 
       # - destroy-environment:backend
       #     workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"    
@@ -254,7 +254,7 @@ jobs:
           command: |
             # code added here
             pwd
-            cat .cimg/ansible/inventory.txt
+            cat .circleci/ansible/inventory.txt
             echo ENVIRONMENT=production > "backend/.env"
             ls
             echo TYPEORM_CONNECTION=postgres >> "backend/.env"
@@ -268,7 +268,7 @@ jobs:
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/.env"
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
             # upto here new        
-            cd .cimg/ansible
+            cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
           no_output_timeout: 30m
 
@@ -439,7 +439,7 @@ jobs:
             tar -C backend -czvf artifact.tar.gz . 
             pwd
             ls
-            cd .cimg/ansible
+            cd .circleci/ansible
             echo "Contents of the inventory.txt file are -------"
             cat inventory.txt
             export ANSIBLE_HOST_KEY_CHECKING=False
@@ -530,7 +530,7 @@ jobs:
       #     command: |
             # Change the initial stack name, as applicable to you
             # aws cloudformation deploy \
-            #         --template-file .cimg/files/cloudfront.yml \
+            #         --template-file .circleci/files/cloudfront.yml \
             #         --stack-name InitialStack \
             #         --region us-east-1 \
             #         --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
